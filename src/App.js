@@ -20,13 +20,39 @@ class App extends React.Component {
     };
   }
 
+  ValidateButton = () => {
+    const { cardName,
+      cardDescription,
+      cardImage,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    } = this.state;
+
+    const minAtributo = 0;
+    const maxAtributo = 90;
+    const sum = (Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3));
+    const total = 210;
+
+    if (
+      cardName !== '' && cardDescription !== '' && cardImage !== ''
+      && (Number(cardAttr1) >= minAtributo && Number(cardAttr1) <= maxAtributo)
+      && (Number(cardAttr2) >= minAtributo && Number(cardAttr2) <= maxAtributo)
+      && (Number(cardAttr3) >= minAtributo && Number(cardAttr3) <= maxAtributo)
+      && sum <= total) {
+      this.setState({ isSaveButtonDisabled: false });
+    } else {
+      this.setState({ isSaveButtonDisabled: true });
+    }
+  }
+
   onInputChange = ({ target }) => {
     const { name, type } = target;
     const value = type === 'checkbox' ? target.checked : target.value;
 
     this.setState({
       [name]: value,
-    });
+    }, () => this.ValidateButton());
   }
 
   render() {
