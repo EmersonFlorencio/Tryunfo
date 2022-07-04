@@ -29,6 +29,7 @@ class App extends React.Component {
       cardAttr2,
       cardAttr3,
       cardRare,
+      cardTrunfo,
     } = this.state;
 
     this.setState((prevState) => ({
@@ -40,6 +41,7 @@ class App extends React.Component {
         cardAttr2,
         cardAttr3,
         cardRare,
+        cardTrunfo,
       }],
     }), this.cleanFormCard);
   }
@@ -54,6 +56,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       isSaveButtonDisabled: true,
+      hasTrunfo: true,
     });
   }
 
