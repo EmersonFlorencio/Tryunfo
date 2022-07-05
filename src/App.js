@@ -16,48 +16,8 @@ class App extends React.Component {
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
-      newCard: [],
+      newCards: [],
     };
-  }
-
-  onSaveButtonClick = () => {
-    const {
-      cardName,
-      cardDescription,
-      cardImage,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardRare,
-      cardTrunfo,
-    } = this.state;
-
-    this.setState((prevState) => ({
-      newCard: [...prevState.newCard, {
-        cardName,
-        cardDescription,
-        cardImage,
-        cardAttr1,
-        cardAttr2,
-        cardAttr3,
-        cardRare,
-        cardTrunfo,
-      }],
-    }), this.cleanFormCard);
-  }
-
-  cleanFormCard = () => {
-    this.setState({
-      cardName: '',
-      cardDescription: '',
-      cardAttr1: 0,
-      cardAttr2: 0,
-      cardAttr3: 0,
-      cardImage: '',
-      cardRare: 'normal',
-      isSaveButtonDisabled: true,
-      hasTrunfo: true,
-    });
   }
 
   ValidateButton = () => {
@@ -95,6 +55,48 @@ class App extends React.Component {
     }, () => this.ValidateButton());
   }
 
+  onSaveButtonClick = (e) => {
+    e.preventDefault();
+
+    const card = { ...this.state };
+    if (card.cardTrunfo === true) {
+      this.setState({
+        hasTrunfo: true });
+    }
+    const { cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare } = this.state;
+
+    const obj = { cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare };
+
+    this.setState((prevCard) => ({
+      newCards: [
+        ...prevCard.newCards,
+        obj,
+      ],
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      hasTrunfo: true,
+      isSaveButtonDisabled: true,
+    }));
+  }
+
   render() {
     const {
       cardName,
@@ -107,10 +109,11 @@ class App extends React.Component {
       cardTrunfo,
       isSaveButtonDisabled,
       hasTrunfo,
-      // newCards,
+      newCards,
     } = this.state;
     return (
       <div>
+        <h1>Tryunfo</h1>
         <Form
           cardName={ cardName }
           cardDescription={ cardDescription }
@@ -136,6 +139,19 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.onInputChange }
         />
+        {newCards.map((e) => (
+          <div key={ e.cardName }>
+            <Card
+              cardName={ e.cardName }
+              cardDescription={ e.cardDescription }
+              cardAttr1={ e.cardAttr1 }
+              cardAttr2={ e.cardAttr2 }
+              cardAttr3={ e.cardAttr3 }
+              cardImage={ e.cardImage }
+              cardRare={ e.cardRare }
+              cardTrunfo={ e.cardTrunfo }
+            />
+          </div>))}
       </div>
     );
   }
